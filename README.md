@@ -23,12 +23,12 @@ Für die Prognose der Bevölkerungsentwicklung wird der **Prophet-Algorithmus** 
 
 1. **Repository klonen:**
     ```bash
-    git clone https://github.com/dein-github/bev-prog-zh.git
+    git clone https://github.com/dein-github/bev-prog-zh-v2.git
     ```
 
 2. **Virtuelle Umgebung einrichten:**
     ```bash
-    cd bev-prog-zh
+    cd bev-prog-zh-v2
     python -m venv venv
     source venv/bin/activate  # Für Mac/Linux
     venv\Scripts\activate  # Für Windows
