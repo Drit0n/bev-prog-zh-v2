@@ -36,30 +36,31 @@ Die Web-App zeigt die prognostizierten Bevölkerungszahlen interaktiv in einer *
 Zuerst das Repository auf deinen lokalen Rechner klonen:
 ```bash
 git clone https://github.com/dein-github/bev-prog-zh-v2.git
+```
 2. Virtuelle Umgebung einrichten:
 Erstelle eine virtuelle Umgebung und aktiviere sie:
 
-bash
-Kopieren
+```bash
 cd bev-prog-zh-v2
 python -m venv venv
 source venv/bin/activate  # Für Mac/Linux
 venv\Scripts\activate  # Für Windows
+```
 3. Abhängigkeiten installieren:
 Installiere die notwendigen Python-Pakete:
 
-bash
-Kopieren
+```bash
 pip install -r requirements.txt
+```
 4. MongoDB Atlas konfigurieren:
 Stelle sicher, dass du eine MongoDB Atlas-Datenbank eingerichtet hast. Passe die Verbindungseinstellungen in deinem Code an, um die MongoDB URI und deine Datenbankdetails zu konfigurieren.
 
 5. Flask App starten:
 Starte die Flask-Anwendung:
 
-bash
-Kopieren
+```bash
 flask --app backend run
+```
 🔄 Automatisierung
 GitHub Actions:
 Auto Scrape & Upload:
