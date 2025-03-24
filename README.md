@@ -63,30 +63,30 @@ flask --app backend run
 ```
 🔄 Automatisierung
 GitHub Actions:
-Auto Scrape & Upload:
+* Auto Scrape & Upload:
 Automatisiertes Scraping und Hochladen der CSV-Daten von opendata.swiss in die MongoDB-Datenbank.
 
-Model Training:
+* Model Training:
 Das Prophet-Modell wird automatisch mit den neuesten Daten trainiert, um die Bevölkerungsprognose regelmäßig zu aktualisieren.
 
 Workflow:
-Der Auto Scrape & Upload-Job wird regelmäßig über GitHub Actions ausgeführt, um sicherzustellen, dass die Daten immer auf dem neuesten Stand sind.
+* Der Auto Scrape & Upload-Job wird regelmäßig über GitHub Actions ausgeführt, um sicherzustellen, dass die Daten immer auf dem neuesten Stand sind.
 
-Der Model Training-Job sorgt dafür, dass das Modell bei jedem neuen Datensatz neu trainiert wird.
+*Der Model Training-Job sorgt dafür, dass das Modell bei jedem neuen Datensatz neu trainiert wird.
 
 📈 Prognose
 Die Anwendung bietet Nutzern die Möglichkeit, die Bevölkerungsentwicklung für verschiedene Regionen und Altersgruppen zu prognostizieren. Die Ergebnisse werden sowohl in grafischer als auch in tabellarischer Form angezeigt. Insights wie langfristiger Trend, Spitzenjahr und Altersstruktur werden ebenfalls berechnet und präsentiert.
 
 📚 Weitere Informationen
-MongoDB Atlas: Zur Speicherung und schnellen Abfrage von Bevölkerungsdaten.
+* MongoDB Atlas: Zur Speicherung und schnellen Abfrage von Bevölkerungsdaten.
 
-Scrapy: Für das Scrapen der Daten von opendata.swiss.
+* Scrapy: Für das Scrapen der Daten von opendata.swiss.
 
-Prophet: Für das Modelltraining und die Zeitreihenanalyse.
+* Prophet: Für das Modelltraining und die Zeitreihenanalyse.
 
-Flask: Als Backend-Framework zur Bereitstellung der API und Darstellung der Ergebnisse.
+* Flask: Als Backend-Framework zur Bereitstellung der API und Darstellung der Ergebnisse.
 
-Plotly: Für die interaktive Visualisierung der prognostizierten Bevölkerungszahlen.
+* Plotly: Für die interaktive Visualisierung der prognostizierten Bevölkerungszahlen.
 
 🤖 Beitrag leisten
 Fühle dich frei, zum Projekt beizutragen, indem du Issues erstellst oder Pull Requests vorschlägst. Dein Beitrag ist willkommen!
