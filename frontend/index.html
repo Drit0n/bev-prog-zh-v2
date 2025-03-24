@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Bevölkerungsprognose Zürich</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #ffffff; color: #000; font-family: Arial, sans-serif; }
+        .header { background-color: #005eb8; color: white; padding: 1rem; margin-bottom: 2rem; }
+        .btn-primary { background-color: #005eb8; border: none; }
+        .form-label, th, td { color: #005eb8; }
+        .table th { background-color: #005eb8; color: white; }
+        .plotly-graph { margin-top: 1rem; }
+        .reset-btn { margin-top: 2rem; }
+        .empty-message { color: grey; margin-top: 2rem; }
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="header text-center">
+        <h1>Bevölkerungsprognose Zürich</h1>
+    </div>
+    <div class="container">
+
+        <!-- Filter-Formular -->
+        <form method="get" class="row mb-4" id="filter-form">
+            <div class="col-md-4 mb-3">
+                <label for="region" class="form-label">Region</label>
+                <select id="region" name="region" class="form-select" onchange="this.form.submit()">
+                    <option value="all" {% if region == 'all' %}selected{% endif %}>Alle Regionen</option>
+                    {% for reg in regions %}
+                        <option value="{{ reg }}" {% if region == reg %}selected{% endif %}>{{ reg }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="age" class="form-label">Altersgruppe</label>
+                <select id="age" name="age" class="form-select" onchange="this.form.submit()">
+                    <option value="all" {% if age == 'all' %}selected{% endif %}>Alle Altersgruppen</option>
+                    {% for a in altersgruppen %}
+                        <option value="{{ a }}" {% if age == a %}selected{% endif %}>{{ a.replace('_','-') }} Jahre</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="horizon" class="form-label">Horizont</label>
+                <select id="horizon" name="horizon" class="form-select" onchange="this.form.submit()">
+                    <option value="0" {% if horizon == 0 %}selected{% endif %}>0 Jahre</option>
+                    <option value="5" {% if horizon == 5 %}selected{% endif %}>5 Jahre</option>
+                    <option value="10" {% if horizon == 10 %}selected{% endif %}>10 Jahre</option>
+                    <option value="15" {% if horizon == 15 %}selected{% endif %}>15 Jahre</option>
+                    <option value="20" {% if horizon == 20 %}selected{% endif %}>20 Jahre</option>
+                </select>
+            </div>
+        </form>
+
+        <div class="text-end reset-btn">
+            <a href="/" class="btn btn-primary">Filter zurücksetzen</a>
+        </div>
+
+        {% if forecast and forecast|length > 0 %}
+            <div id="combined_plot" class="plotly-graph"></div>
+
+            <!-- Insights-Boxen -->
+            <div class="row mt-4 mb-4">
+                <!-- 4 Insights-Cards hier -->
+                {% include 'insights.html' %}
+            </div>
+
+            <!-- Prognose-Tabelle als Card mit Scroll -->
+            <div class="card shadow-sm mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Prognose-Daten</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <table class="table table-sm table-bordered mb-0">
+                            <thead class="table-light"><tr><th>Jahr</th><th>Prognose</th></tr></thead>
+                            <tbody>
+                                {% for row in forecast %}
+                                    <tr><td>{{ row.ds.year }}</td><td>{{ row.yhat | round(0) }}</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="empty-message">Keine Prognose verfügbar. Bitte wähle gültige Filteroptionen.</p>
+        {% endif %}
+    </div>
+
+    {% if forecast and forecast|length > 0 %}
+    <script>
+        const forecast = JSON.parse('{{ forecast_json|tojson|safe }}');
+        const startYear = 2025;
+        const forecastHorizon = {{ horizon|tojson }};
+        const region = "{{ region }}" === "all" ? "Alle Regionen" : "{{ region }}";
+        const age = "{{ age }}" === "all" ? "Alle Altersgruppen" : "{{ age.replace('_','-') }} Jahre";
+
+        const historical = forecast.filter(row => new Date(row.ds).getFullYear() < startYear);
+        const future = forecast.filter(row => {
+            const year = new Date(row.ds).getFullYear();
+            return year >= startYear && year < startYear + forecastHorizon;
+        });
+
+        const yearsHist = historical.map(row => new Date(row.ds).getFullYear());
+        const yhatHist = historical.map(row => row.yhat);
+
+        const yearsFuture = future.map(row => new Date(row.ds).getFullYear());
+        const yhatFuture = future.map(row => row.yhat);
+
+        const traceHist = { 
+            x: yearsHist, 
+            y: yhatHist, 
+            mode: 'lines+markers', 
+            name: 'Historische Daten', 
+            line: { color: '#005eb8' } 
+        };
+
+        const traceFuture = { 
+            x: yearsFuture, 
+            y: yhatFuture, 
+            mode: 'lines+markers', 
+            name: 'Prognose', 
+            line: { color: 'green', dash: 'dash' } 
+        };
+
+        const yMax = Math.max(...yhatHist.concat(yhatFuture)) * 1.1;
+
+        const shapes = [{
+            type: 'line',
+            x0: startYear - 0.5,
+            y0: 0,
+            x1: startYear - 0.5,
+            y1: yMax,
+            line: {
+                color: 'grey',
+                width: 2,
+                dash: 'dot'
+            }
+        }];
+
+        const annotations = [{
+            x: startYear,
+            y: yMax * 0.95,
+            xref: 'x',
+            yref: 'y',
+            text: 'Beginn Prognose',
+            showarrow: false,
+            font: { color: 'grey', size: 12 }
+        }];
+
+        Plotly.newPlot('combined_plot', [traceHist, traceFuture], {
+            title: `Prognose für ${region} – ${age} (${forecastHorizon} Jahre)`,
+            xaxis: { title: 'Jahr', dtick: 1 },
+            yaxis: { title: 'Bevölkerung' },
+            shapes: shapes,
+            annotations: annotations
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

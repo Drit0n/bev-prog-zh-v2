@@ -1,0 +1,20 @@
+
+name: Train Model
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  push:
+    branches: [ main ]
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Train Region + Altersgruppen Modelle
+        run: python -c "from app.model import load_data, train_model; df = load_data(); train_model(df)"

@@ -1,0 +1,13 @@
+{% for insight in insights %}
+<div class="col-md-3 mb-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-header bg-{{ insight.color }} text-white">
+            <h6 class="mb-0">{{ insight.title }}</h6>
+        </div>
+        <div class="card-body">
+            <p>{{ insight.text1 }}</p>
+            <p>{{ insight.text2 }}</p>
+        </div>
+    </div>
+</div>
+{% endfor %}

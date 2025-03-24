@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flask App",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "backend",
+                "FLASK_ENV": "development"
+            },
+            "args": ["run"],
+            "jinja": true
+        }
+    ]
+}
