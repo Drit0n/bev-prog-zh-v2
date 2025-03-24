@@ -1,4 +1,3 @@
-
 name: Train Model
 on:
   schedule:
@@ -17,4 +16,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Train Region + Altersgruppen Modelle
-        run: python -c "from app.model import load_data, train_model; df = load_data(); train_model(df)"
+        run: python -c "from backend.model import load_data, train_model; df = load_data(); train_model(df)"
