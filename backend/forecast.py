@@ -1,6 +1,8 @@
 import pandas as pd
 from prophet import Prophet
-from .database import get_data  # MongoDB-Datenquelle
+from backend.database import get_data
+
+
 
 def make_forecast(region, altersgruppe, horizon):
     # 🔵 Hole die Daten aus MongoDB
