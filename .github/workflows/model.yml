@@ -24,15 +24,13 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Scrape Data and Store in MongoDB
+      - name: Lade CSV in MongoDB
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
-          cd scraper  # <-- passe an: z. B. immo_spider oder comparis_scraper
-          scrapy crawl main_spider -s CLOSESPIDER_PAGECOUNT=50
-          cd ..
+          python scripts/import_csv_to_mongo.py
 
-      - name: Train ML Model
+      - name: Trainiere Modell
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
@@ -40,7 +38,7 @@ jobs:
           python model.py
           cd ..
 
-      - name: Upload Model to Azure Blob Storage
+      - name: Speichere Modell in Azure Blob
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
