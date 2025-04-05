@@ -28,18 +28,35 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
-          python scraper/open_data_scraper.py
+          if [ -f "scraper/open_data_scraper.py" ]; then
+            python scraper/open_data_scraper.py
+          else
+            echo "❌ Datei scraper/open_data_scraper.py nicht gefunden!"
+            exit 1
+          fi
 
       - name: 🧠 Modell trainieren
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
-          cd model
-          python model.py
+          if [ -f "model/model.py" ]; then
+            cd model
+            python model.py
+            cd ..
+          else
+            echo "❌ Datei model/model.py nicht gefunden!"
+            exit 1
+          fi
 
       - name: ☁️ Modell nach Azure Blob hochladen
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
-          cd model
-          python save.py -c "${AZURE_STORAGE_CONNECTION_STRING}"
+          if [ -f "model/save.py" ]; then
+            cd model
+            python save.py -c "${AZURE_STORAGE_CONNECTION_STRING}"
+            cd ..
+          else
+            echo "❌ Datei model/save.py nicht gefunden!"
+            exit 1
+          fi
