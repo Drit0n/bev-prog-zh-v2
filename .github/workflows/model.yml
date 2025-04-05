@@ -6,31 +6,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  model:
+  update-model:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: ✅ Projekt herunterladen (Checkout)
         uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name: 🐍 Python einrichten
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: 'pip'
 
-      - name: Install Dependencies
+      - name: 📦 Abhängigkeiten installieren
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Lade CSV in MongoDB
+      - name: 📥 CSV laden & in MongoDB speichern
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
-          python scripts/import_csv_to_mongo.py
+          python scraper\open_data_scraper.py
 
-      - name: Trainiere Modell
+      - name: 🧠 Modell trainieren
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
@@ -38,7 +38,7 @@ jobs:
           python model.py
           cd ..
 
-      - name: Speichere Modell in Azure Blob
+      - name: ☁️ Modell nach Azure Blob hochladen
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
