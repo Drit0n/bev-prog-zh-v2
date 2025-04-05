@@ -16,5 +16,3 @@ def get_data(region="all", altersgruppe="all"):
     cursor = collection.find(query)
     df = pd.DataFrame(cursor)
     return df
-
-
