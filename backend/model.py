@@ -60,5 +60,3 @@ if __name__ == "__main__":
 #     region = "Zürich"
 #     altersgruppe = "20-30"
 #     horizon = 5
-#     forecast_data = make_forecast(region, altersgruppe, horizon)
-#     print(forecast_data)
