@@ -30,14 +30,12 @@ jobs:
         run: |
           python scraper/open_data_scraper.py
 
-
       - name: 🧠 Modell trainieren
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
           cd model
           python model.py
-          cd ..
 
       - name: ☁️ Modell nach Azure Blob hochladen
         env:
