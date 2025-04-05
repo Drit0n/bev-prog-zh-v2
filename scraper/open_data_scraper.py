@@ -11,7 +11,7 @@ mongo_db = "bev_prog_zh"
 mongo_collection = "bev_population"
 
 # 📥 CSV laden
-df = pd.read_csv(csv_url)
+df = pd.read_csv(csv_url, sep=';')
 df["jahr"] = df["jahr"].astype(int)
 
 # ☁️ In MongoDB speichern
