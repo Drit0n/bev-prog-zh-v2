@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import os
 
 # ✅ Direkter Download-Link zur CSV-Datei
-csv_url = "https://opendata.swiss/de/dataset/zukunftige-bevolkerung-kanton-zurich-und-regionen-nach-geschlecht-und-alter/resource/ad753801-25e7-4bce-b8ab-a704962c95de"
+csv_url = "https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000705_00005785.csv"
 
 # ✅ MongoDB-Zugang über Umgebungsvariable (kommt aus GitHub Secret)
 mongo_uri = os.getenv("mongodb+srv://bevprogzh:bevprogzh@cluster0.4agtg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
