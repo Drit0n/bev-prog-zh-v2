@@ -1,0 +1,48 @@
+name: ModelOps (Update Model)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  model:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Scrape Data and Store in MongoDB
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: |
+          cd scraper  # <-- passe an: z. B. immo_spider oder comparis_scraper
+          scrapy crawl main_spider -s CLOSESPIDER_PAGECOUNT=50
+          cd ..
+
+      - name: Train ML Model
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: |
+          cd model
+          python model.py
+          cd ..
+
+      - name: Upload Model to Azure Blob Storage
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        run: |
+          cd model
+          python save.py -c "${AZURE_STORAGE_CONNECTION_STRING}"
