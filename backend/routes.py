@@ -3,7 +3,7 @@ import pandas as pd
 from .forecast import make_forecast
 from .database import get_data  # MongoDB Integration
 
-bp = Blueprint('main', __name__)
+bp = Blueprint('main', __name__, template_folder='../frontend')
 
 @bp.route('/', methods=['GET'])
 def index():

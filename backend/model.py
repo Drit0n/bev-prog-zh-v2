@@ -2,6 +2,12 @@ import pandas as pd
 from prophet import Prophet
 import pickle
 import os
+import sys
+
+# Füge das übergeordnete Verzeichnis dem Suchpfad hinzu,
+# sodass das 'backend'-Modul gefunden wird.
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from backend.database import get_data  # Holt Daten direkt aus MongoDB
 
 def train_model():
@@ -47,3 +53,5 @@ def train_model():
 
 if __name__ == "__main__":
     train_model()
+    print("✅ Modelltraining abgeschlossen!")
+    print("✅ Alle Modelle erfolgreich trainiert und gespeichert.")

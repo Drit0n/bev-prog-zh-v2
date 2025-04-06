@@ -1,13 +1,12 @@
 from flask import Flask
-import os
 
 def create_app():
-    # Frontend Ordner explizit angeben
-    template_dir = os.path.abspath('frontend')
-
-    app = Flask(__name__, template_folder=template_dir)
-
-    from .routes import bp as main_bp
-    app.register_blueprint(main_bp)
-
+    # Hier wird der Template-Ordner auf '../frontend' gesetzt,
+    # da sich der Ordner "frontend" eine Ebene oberhalb von "backend" befindet.
+    app = Flask(__name__, template_folder='../frontend')
+    
+    # Blueprints registrieren (z.B. aus routes.py)
+    from backend.routes import bp
+    app.register_blueprint(bp)
+    
     return app
