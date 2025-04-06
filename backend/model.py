@@ -22,6 +22,7 @@ def train_model():
         
         # Output-Verzeichnis erstellen
         os.makedirs('backend/static', exist_ok=True)
+        os.makedirs('model', exist_ok=True)  # <--- neu für combined model
 
         regions = df['region'].unique()
         ages = df['alter'].unique()
@@ -48,6 +49,22 @@ def train_model():
                     pickle.dump(model, f)
 
                 print(f"✅ Modell gespeichert für {region} - {age}")
+        
+        # 📦 Kombiniertes Modell über alle Daten
+        print("🔄 Trainiere kombiniertes Gesamtmodell über alle Daten...")
+        df_all = df.groupby('jahr')['anzahl'].sum().reset_index()
+        df_all.rename(columns={'jahr': 'ds', 'anzahl': 'y'}, inplace=True)
+        df_all['ds'] = pd.to_datetime(df_all['ds'], format='%Y')
+
+        combined_model = Prophet(yearly_seasonality=False)
+        combined_model.fit(df_all)
+
+        combined_model_path = 'model/region_age_combined_model.pkl'
+        with open(combined_model_path, 'wb') as f:
+            pickle.dump(combined_model, f)
+
+        print(f"✅ Kombiniertes Modell gespeichert unter {combined_model_path}")
+                
     except Exception as e:
         print(f"Fehler: {str(e)}")
 
