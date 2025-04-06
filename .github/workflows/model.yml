@@ -42,7 +42,7 @@ jobs:
         run: |
           set -e
           if [ -f "backend/model.py" ]; then
-            cd model
+            cd backend
             python model.py
             cd ..
           else
