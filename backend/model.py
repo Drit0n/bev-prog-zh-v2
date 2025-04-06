@@ -1,3 +1,15 @@
+# -----------------------------------------------------------------------------
+# model.py – Training von Prophet-Modellen für Bevölkerungsprognose
+#
+# Dieses Skript lädt die Bevölkerungsdaten aus MongoDB, trainiert für jede
+# Kombination aus Region und Altersgruppe ein eigenes Prophet-Modell und speichert
+# diese als .pkl-Dateien. Zusätzlich wird ein kombiniertes Gesamtmodell über alle
+# Daten hinweg trainiert und gespeichert.
+#
+# Einsatz im Rahmen der Web-App „bev-prog-zh“ (Flask + Prophet + MongoDB + Azure)
+# -----------------------------------------------------------------------------
+
+
 import pandas as pd
 from prophet import Prophet
 import pickle

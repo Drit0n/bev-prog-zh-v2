@@ -1,3 +1,11 @@
+# -----------------------------------------------------------------------------
+# database.py – Verbindung zu MongoDB Atlas & Datenabruf
+#
+# Dieses Modul stellt die Verbindung zur MongoDB Atlas-Datenbank her
+# und bietet eine zentrale Funktion `get_data()`, um Bevölkerungsdaten
+# nach Region und Altersgruppe zu filtern.
+# -----------------------------------------------------------------------------
+
 from pymongo import MongoClient
 import pandas as pd
 

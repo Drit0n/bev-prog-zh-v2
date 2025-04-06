@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# routes.py – Zentrale Flask-Routen-Logik für bev-prog-zh
+#
+# Diese Datei verarbeitet HTTP-Anfragen, steuert die Benutzerlogik,
+# ruft Prognosen auf Basis von Region, Altersgruppe und Zeitraum ab
+# und berechnet zusätzlich dynamische Insight-Karten für die Weboberfläche.
+# -----------------------------------------------------------------------------
+
+
+
 from flask import Blueprint, render_template, request
 import pandas as pd
 from .forecast import make_forecast

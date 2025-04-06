@@ -1,3 +1,11 @@
+# -----------------------------------------------------------------------------
+# forecast.py – Prognosefunktion mit Prophet
+#
+# Diese Funktion erstellt für eine gegebene Region und Altersgruppe eine
+# Bevölkerungsprognose auf Basis historischer Daten aus MongoDB.
+# Die Prognose erfolgt mit Prophet und gibt Vorhersagen für die nächsten Jahre zurück.
+# -----------------------------------------------------------------------------
+
 import pandas as pd
 from prophet import Prophet
 from .database import get_data  # MongoDB-Datenquelle
