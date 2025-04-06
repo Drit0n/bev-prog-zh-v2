@@ -41,12 +41,12 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
           set -e
-          if [ -f "model/model.py" ]; then
+          if [ -f "backend/model.py" ]; then
             cd model
             python model.py
             cd ..
           else
-            echo "❌ Datei model/model.py nicht gefunden!"
+            echo "❌ Datei backend/model.py nicht gefunden!"
             exit 1
           fi
 
