@@ -1,0 +1,23 @@
+# Python- und Build-Artefakte
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+
+# Virtuelle Umgebungen
+.venv/
+venv/
+
+# Modelldateien, die nur zur Entwicklung gehören
+*.joblib
+
+# Scrapy-Cache
+.scrapy/
+
+# MacOS-Systemdateien
+.DS_Store
+
+# Git-Verzeichnis
+.git/
