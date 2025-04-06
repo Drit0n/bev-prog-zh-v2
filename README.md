@@ -30,65 +30,112 @@ Das **Prophet-Modell** wird regelmäßig neu trainiert, um die neuesten verfügb
 ### **4. Frontend:**
 Die Web-App zeigt die prognostizierten Bevölkerungszahlen interaktiv in einer **Plotly-Visualisierung**. Nutzer können auswählen, welche Region und Altersgruppe sie analysieren möchten, und die Web-App zeigt sowohl historische als auch prognostizierte Daten an.
 
+## 📂 Projektstruktur
+
+```
+bev-prog-zh/
+├── app.py                  # Einstiegspunkt der App
+├── backend/                # Business-Logik und Datenverarbeitung
+│   ├── routes.py
+│   ├── model.py
+│   ├── forecast.py
+│   ├── database.py
+│   └── static/             # Forecast-Modelle (.pkl)
+├── templates/              # HTML-Templates für das Dashboard
+│   ├── base.html
+│   ├── index.html
+│   └── insights.html
+├── data/                   # Originaldaten (CSV)
+├── static/                 # Styles, ggf. Icons
+├── .github/workflows/      # GitHub Actions für CI/CD
+├── Dockerfile              # Docker für Azure-Deployment
+├── docker-compose.yml      # Lokales Multi-Container-Setup
+└── requirements.txt        # Python-Abhängigkeiten
+```
+
+## 🧰 Verwendete Technologien
+
+| Technologie     | Funktion                                    |
+|----------------|---------------------------------------------|
+| Python 3.10     | Programmiersprache                          |
+| Flask           | Web-Framework (Backend/API)                |
+| Prophet         | Zeitreihenprognose (ML)                     |
+| Plotly          | Interaktive Visualisierung                  |
+| Scrapy          | Datenextraktion von opendata.swiss         |
+| MongoDB Atlas   | Cloud-Datenbank für Bevölkerungsdaten       |
+| GitHub Actions  | CI/CD für Modelltraining und Datenupload    |
+| Docker          | Containerisierung & Azure Deployment        |
+
 ## 💻 Installation
 
 ### 1. **Repository klonen:**
-Zuerst das Repository auf deinen lokalen Rechner klonen:
 ```bash
 git clone https://github.com/dein-github/bev-prog-zh-v2.git
 ```
-2. Virtuelle Umgebung einrichten:
-Erstelle eine virtuelle Umgebung und aktiviere sie:
 
+### 2. Virtuelle Umgebung einrichten:
 ```bash
 cd bev-prog-zh-v2
 python -m venv venv
 source venv/bin/activate  # Für Mac/Linux
 venv\Scripts\activate  # Für Windows
 ```
-3. Abhängigkeiten installieren:
-Installiere die notwendigen Python-Pakete:
 
+### 3. Abhängigkeiten installieren:
 ```bash
 pip install -r requirements.txt
 ```
-4. MongoDB Atlas konfigurieren:
-Stelle sicher, dass du eine MongoDB Atlas-Datenbank eingerichtet hast. Passe die Verbindungseinstellungen in deinem Code an, um die MongoDB URI und deine Datenbankdetails zu konfigurieren.
 
-5. Flask App starten:
-Starte die Flask-Anwendung:
+### 4. MongoDB Atlas konfigurieren:
+MongoDB URI in `.env` Datei oder direkt im Code definieren.
 
+### 5. Flask App starten:
 ```bash
 flask --app backend run
 ```
-🔄 Automatisierung
-GitHub Actions:
-* Auto Scrape & Upload:
-Automatisiertes Scraping und Hochladen der CSV-Daten von opendata.swiss in die MongoDB-Datenbank.
 
-* Model Training:
-Das Prophet-Modell wird automatisch mit den neuesten Daten trainiert, um die Bevölkerungsprognose regelmäßig zu aktualisieren.
+## 🔄 Automatisierung
 
-Workflow:
-* Der Auto Scrape & Upload-Job wird regelmäßig über GitHub Actions ausgeführt, um sicherzustellen, dass die Daten immer auf dem neuesten Stand sind.
+### GitHub Actions:
+- **Auto Scrape & Upload:** Automatisches Scraping und Upload in MongoDB
+- **Model Training:** Automatisches Training neuer Forecast-Modelle
 
-*Der Model Training-Job sorgt dafür, dass das Modell bei jedem neuen Datensatz neu trainiert wird.
+## 📈 Prognose & Einblicke
 
-📈 Prognose
-Die Anwendung bietet Nutzern die Möglichkeit, die Bevölkerungsentwicklung für verschiedene Regionen und Altersgruppen zu prognostizieren. Die Ergebnisse werden sowohl in grafischer als auch in tabellarischer Form angezeigt. Insights wie langfristiger Trend, Spitzenjahr und Altersstruktur werden ebenfalls berechnet und präsentiert.
+### Dynamische Insights:
+- ✈️ **Langfristiger Trend**
+- 🌟 **Spitzenjahr**
+- 🧴 **Altersstruktur**
+- 📈 **Prognosewachstum**
 
-📚 Weitere Informationen
-* MongoDB Atlas: Zur Speicherung und schnellen Abfrage von Bevölkerungsdaten.
+## 📊 KPI-Definitionen im Dashboard
 
-* Scrapy: Für das Scrapen der Daten von opendata.swiss.
+- **Gesamtbevölkerung:** Summe aller Altersgruppen
+- **Ø Wachstum:** Durchschnitt 2010–2024
+- **Größte Altersgruppe:** Bevölkerungsstärkste Gruppe im aktuellen Jahr
 
-* Prophet: Für das Modelltraining und die Zeitreihenanalyse.
+## 🧪 Teststrategie
 
-* Flask: Als Backend-Framework zur Bereitstellung der API und Darstellung der Ergebnisse.
+- Datenintegritätstests
+- Visuelle Prüfung von Diagrammen
+- Test der GitHub CI/CD Pipelines
 
-* Plotly: Für die interaktive Visualisierung der prognostizierten Bevölkerungszahlen.
+## 🔐 Sicherheit & Datenschutz
 
-🤖 Beitrag leisten
-Fühle dich frei, zum Projekt beizutragen, indem du Issues erstellst oder Pull Requests vorschlägst. Dein Beitrag ist willkommen!
+- Keine personenbezogenen Daten
+- Verwendung von Open Data
+- Gesicherter Datenbankzugriff via .env Variablen
 
-Vielen Dank für dein Interesse an diesem Projekt! 🌟
+## ℹ️ Projektgrenzen
+
+- ✅ Regionale Prognose nach Altersgruppe
+- ❌ Keine sozioökonomische Analyse
+- ❌ Kein Login-System
+
+## 📚 Weitere Informationen
+
+- Flask, Plotly, Prophet, Scrapy, MongoDB Atlas
+
+## 🤖 Beitrag leisten
+
+Feedback, Forks und PRs sind jederzeit willkommen! 🚀
