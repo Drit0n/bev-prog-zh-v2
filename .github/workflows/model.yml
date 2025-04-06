@@ -26,7 +26,7 @@ jobs:
 
       - name: 📥 CSV laden & in MongoDB speichern
         env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGO_URI: ${{ secrets.MONGODB_URI }}
         run: |
           set -e
           if [ -f "scraper/open_data_scraper.py" ]; then
@@ -38,7 +38,7 @@ jobs:
 
       - name: 🧠 Modell trainieren
         env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGO_URI: ${{ secrets.MONGODB_URI }}
         run: |
           set -e
           if [ -f "model/model.py" ]; then

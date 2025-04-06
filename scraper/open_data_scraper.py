@@ -32,9 +32,9 @@ if 'jahr' not in df.columns:
 df['jahr'] = df['jahr'].astype(int)
 
 # ☁️ Mit MongoDB verbinden
-mongo_uri = os.getenv("MONGO_URI")
+mongo_uri = os.getenv("MONGODB_URI")
 if not mongo_uri:
-    print("❌ MONGO_URI Umgebungsvariable ist nicht gesetzt.")
+    print("❌ MONGODB_URI Umgebungsvariable ist nicht gesetzt.")
     exit(1)
 
 client = MongoClient(mongo_uri)
