@@ -25,7 +25,7 @@ Der **Scrapy Spider** extrahiert automatisch die CSV-Datei von der Webseite **op
 Die heruntergeladene CSV-Datei wird in eine **MongoDB Atlas-Datenbank** importiert. Diese Datenbank bietet eine schnelle Möglichkeit zur Abfrage und Filterung von Bevölkerungsdaten basierend auf verschiedenen Parametern (z. B. Region, Altersgruppe, Jahr).
 
 ### **3. Modelltraining:**
-Das **Prophet-Modell** wird regelmäßig neu trainiert, um die neuesten verfügbaren Daten in die Prognosen zu integrieren. Modelle werden für jede Region und Altersgruppe gespeichert und können dann in der Web-App abgerufen werden.
+Das **Prophet-Modell** wird regelmässig neu trainiert, um die neuesten verfügbaren Daten in die Prognosen zu integrieren. Modelle werden für jede Region und Altersgruppe gespeichert und können dann in der Web-App abgerufen werden.
 
 ### **4. Frontend:**
 Die Web-App zeigt die prognostizierten Bevölkerungszahlen interaktiv in einer **Plotly-Visualisierung**. Nutzer können auswählen, welche Region und Altersgruppe sie analysieren möchten, und die Web-App zeigt sowohl historische als auch prognostizierte Daten an.
@@ -112,7 +112,7 @@ flask --app backend run
 
 - **Gesamtbevölkerung:** Summe aller Altersgruppen
 - **Ø Wachstum:** Durchschnitt 2010–2024
-- **Größte Altersgruppe:** Bevölkerungsstärkste Gruppe im aktuellen Jahr
+- **Grösste Altersgruppe:** Bevölkerungsstärkste Gruppe im aktuellen Jahr
 
 ## 🧪 Teststrategie
 
