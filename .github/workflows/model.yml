@@ -28,6 +28,7 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
+          set -e
           if [ -f "scraper/open_data_scraper.py" ]; then
             python scraper/open_data_scraper.py
           else
@@ -39,6 +40,7 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
+          set -e
           if [ -f "model/model.py" ]; then
             cd model
             python model.py
@@ -52,6 +54,7 @@ jobs:
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
+          set -e
           if [ -f "model/save.py" ]; then
             cd model
             python save.py -c "${AZURE_STORAGE_CONNECTION_STRING}"
