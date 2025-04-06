@@ -13,7 +13,7 @@ def index():
 
     forecast_data = make_forecast(region, age, horizon)
 
-    # 🔵 Daten aus MongoDB laden
+    # Daten aus MongoDB laden 
     df_filtered = get_data(region, age)
 
     # Sicherstellen, dass Jahr als int verfügbar ist
