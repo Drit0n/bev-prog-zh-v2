@@ -10,8 +10,8 @@ response = requests.get(csv_url)
 response.encoding = 'latin1'  # wichtig!
 csv_data = StringIO(response.text)
 
-# ✅ Manuell korrekt einlesen
-df = pd.read_csv(csv_data, sep=';', quotechar='"')
+# ✅ Manuell korrekt einlesen mit Komma als Separator
+df = pd.read_csv(csv_data, sep=',', quotechar='"')
 
 # 🔍 Spalten bereinigen
 df.columns = df.columns.str.replace('"', '').str.strip().str.lower()
@@ -33,3 +33,4 @@ collection.delete_many({})
 collection.insert_many(df.to_dict(orient="records"))
 
 print(f"✅ {len(df)} Datensätze erfolgreich in MongoDB importiert.")
+print("✅ Datenbank-Import erfolgreich!")
