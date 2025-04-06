@@ -1,33 +1,35 @@
 import pandas as pd
 from pymongo import MongoClient
 import os
+import requests
+from io import StringIO
 
-# ✅ Direkter Download-Link zur CSV-Datei vom Statistikportal Zürich
+# ✅ CSV richtig manuell herunterladen
 csv_url = "https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000705_00005785.csv"
+response = requests.get(csv_url)
+response.encoding = 'latin1'  # wichtig!
+csv_data = StringIO(response.text)
 
-# ✅ MongoDB-Zugang via GitHub Action Secret (NICHT direkt eintragen!)
-mongo_uri = os.getenv("MONGO_URI")  # <- Wichtig: kommt aus GitHub Secret
-mongo_db = "bev_prog_zh"
-mongo_collection = "bev_population"
+# ✅ Manuell korrekt einlesen
+df = pd.read_csv(csv_data, sep=';', quotechar='"')
 
-# 📥 CSV laden mit korrekter Trennung und Encoding
-df = pd.read_csv(csv_url, sep=';', encoding='latin1', quotechar='"')
+# 🔍 Spalten bereinigen
+df.columns = df.columns.str.replace('"', '').str.strip().str.lower()
 
-# 🧠 Optional: 'jahr' als Integer casten (nur wenn vorhanden)
-if 'jahr' in df.columns:
-    df["jahr"] = df["jahr"].astype(int)
-else:
-    print("❌ Spalte 'jahr' nicht gefunden. Verfügbare Spalten:")
-    print(df.columns.tolist())
+# 🧠 'jahr'-Spalte checken
+if 'jahr' not in df.columns:
+    print("❌ Spalte 'jahr' nicht gefunden. Spalten:", df.columns.tolist())
     exit(1)
 
-# ☁️ In MongoDB speichern
+df['jahr'] = df['jahr'].astype(int)
+
+# ☁️ MongoDB
+mongo_uri = os.getenv("MONGO_URI")
 client = MongoClient(mongo_uri)
-db = client[mongo_db]
-collection = db[mongo_collection]
+db = client["bev_prog_zh"]
+collection = db["bev_population"]
 
 collection.delete_many({})
 collection.insert_many(df.to_dict(orient="records"))
 
 print(f"✅ {len(df)} Datensätze erfolgreich in MongoDB importiert.")
-
